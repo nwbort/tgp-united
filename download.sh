@@ -6,6 +6,8 @@
 # Outputs:
 #   tgp-united-current.csv  - overwritten each run with current prices
 #   tgp-united-history.csv  - appended with new unique rows for full history
+#   tgp_data.csv            - normalised view of full history (regenerated)
+#   tgp_data.json           - normalised JSON for the site (regenerated)
 #
 # Usage: ./download.sh URL
 
@@ -35,17 +37,23 @@ curl -s -L "$URL" -o "$TEMP_FILE" || {
 CURRENT_DIR="$(pwd)"
 CURRENT_CSV="${CURRENT_DIR}/tgp-united-current.csv"
 HISTORY_CSV="${CURRENT_DIR}/tgp-united-history.csv"
+NORMALISED_CSV="${CURRENT_DIR}/tgp_data.csv"
+NORMALISED_JSON="${CURRENT_DIR}/tgp_data.json"
 
 # Extract table from HTML and convert to CSV using python3 (stdlib only)
-python3 - "$TEMP_FILE" "$CURRENT_CSV" "$HISTORY_CSV" << 'PYEOF'
+python3 - "$TEMP_FILE" "$CURRENT_CSV" "$HISTORY_CSV" "$NORMALISED_CSV" "$NORMALISED_JSON" << 'PYEOF'
 import sys
 import re
 import csv
+import json
 import os
+from datetime import date as date_cls
 
 html_file = sys.argv[1]
 current_csv = sys.argv[2]
 history_csv = sys.argv[3]
+normalised_csv = sys.argv[4]
+normalised_json = sys.argv[5]
 
 with open(html_file, "r", encoding="utf-8", errors="replace") as f:
     html = f.read()
@@ -124,4 +132,99 @@ if new_rows:
     print(f"Appended {len(new_rows)} new rows to {os.path.basename(history_csv)}")
 else:
     print(f"No new rows to append to {os.path.basename(history_csv)}")
+
+# Build the normalised CSV and JSON from the full history.
+PRODUCT_MAP = {
+    "ULP": "ulp91",
+    "E10": "e10",
+    "P95": "p95",
+    "P98": "p98",
+    "DIS": "diesel",
+    "PREDIS": "prediesel",
+    "B5": "b5",
+}
+
+TERMINAL_STATE = {
+    "Adelaide": "SA",
+    "Bell Bay": "TAS",
+    "Brisbane": "QLD",
+    "Broome": "WA",
+    "Cairns": "QLD",
+    "Darwin": "NT",
+    "Gladstone": "QLD",
+    "Hastings": "VIC",
+    "Mackay": "QLD",
+    "Perth": "WA",
+    "Port Alma": "QLD",
+    "Sydney": "NSW",
+    "Townsville": "QLD",
+    "Yarraville": "VIC",
+}
+
+
+def normalise_date(s):
+    # Accepts DD/MM/YYYY and returns YYYY-MM-DD; passes through ISO unchanged.
+    s = s.strip()
+    if re.match(r"^\d{4}-\d{2}-\d{2}$", s):
+        return s
+    m = re.match(r"^(\d{1,2})/(\d{1,2})/(\d{4})$", s)
+    if not m:
+        return None
+    d, mo, y = m.groups()
+    return f"{int(y):04d}-{int(mo):02d}-{int(d):02d}"
+
+
+normalised = []
+seen = set()
+with open(history_csv, "r", newline="") as f:
+    reader = csv.reader(f)
+    try:
+        next(reader)
+    except StopIteration:
+        pass
+    for row in reader:
+        if len(row) != 6:
+            continue
+        raw_date, terminal, product, _excl, _gst, incl = row
+        iso = normalise_date(raw_date)
+        if iso is None:
+            continue
+        fuel_type = PRODUCT_MAP.get(product.strip().upper())
+        if fuel_type is None:
+            continue
+        state = TERMINAL_STATE.get(terminal.strip())
+        if state is None:
+            continue
+        try:
+            price = round(float(incl), 1)
+        except ValueError:
+            continue
+        key = (iso, state, terminal, fuel_type)
+        if key in seen:
+            continue
+        seen.add(key)
+        normalised.append([iso, state, terminal, fuel_type, price])
+
+normalised.sort(key=lambda r: (r[0], r[1], r[2], r[3]))
+
+with open(normalised_csv, "w", newline="") as f:
+    writer = csv.writer(f)
+    writer.writerow(["date", "state", "location", "fuel_type", "price_cpl"])
+    for r in normalised:
+        writer.writerow([r[0], r[1], r[2], r[3], f"{r[4]:.1f}"])
+
+print(f"Wrote {len(normalised)} rows to {os.path.basename(normalised_csv)}")
+
+payload = {
+    "provider": "united",
+    "updated": date_cls.today().isoformat(),
+    "fields": ["date", "state", "location", "fuel_type", "price_cpl"],
+    "records": normalised,
+}
+
+with open(normalised_json, "w") as f:
+    json.dump(payload, f, separators=(",", ":"))
+    f.write("\n")
+
+print(f"Wrote {len(normalised)} records to {os.path.basename(normalised_json)}")
 PYEOF
