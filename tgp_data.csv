@@ -5348,3 +5348,75 @@ date,state,location,fuel_type,price_cpl
 2026-06-30,WA,Perth,p98,172.8
 2026-06-30,WA,Perth,prediesel,153.3
 2026-06-30,WA,Perth,ulp91,146.7
+2026-07-01,NSW,Sydney,diesel,171.7
+2026-07-01,NSW,Sydney,e10,162.5
+2026-07-01,NSW,Sydney,p95,178.0
+2026-07-01,NSW,Sydney,p98,186.9
+2026-07-01,NSW,Sydney,prediesel,173.9
+2026-07-01,NSW,Sydney,ulp91,162.6
+2026-07-01,NT,Darwin,diesel,172.0
+2026-07-01,NT,Darwin,p95,178.7
+2026-07-01,NT,Darwin,prediesel,174.2
+2026-07-01,NT,Darwin,ulp91,169.0
+2026-07-01,QLD,Brisbane,b5,177.2
+2026-07-01,QLD,Brisbane,diesel,173.2
+2026-07-01,QLD,Brisbane,e10,166.8
+2026-07-01,QLD,Brisbane,p95,175.5
+2026-07-01,QLD,Brisbane,p98,190.4
+2026-07-01,QLD,Brisbane,prediesel,175.4
+2026-07-01,QLD,Brisbane,ulp91,167.9
+2026-07-01,QLD,Cairns,diesel,173.5
+2026-07-01,QLD,Cairns,e10,172.8
+2026-07-01,QLD,Cairns,p95,179.1
+2026-07-01,QLD,Cairns,prediesel,175.7
+2026-07-01,QLD,Cairns,ulp91,170.7
+2026-07-01,QLD,Gladstone,diesel,172.5
+2026-07-01,QLD,Gladstone,e10,171.5
+2026-07-01,QLD,Gladstone,p95,172.7
+2026-07-01,QLD,Gladstone,prediesel,174.7
+2026-07-01,QLD,Gladstone,ulp91,171.9
+2026-07-01,QLD,Mackay,diesel,173.0
+2026-07-01,QLD,Mackay,e10,174.1
+2026-07-01,QLD,Mackay,p95,173.9
+2026-07-01,QLD,Mackay,p98,177.1
+2026-07-01,QLD,Mackay,prediesel,175.2
+2026-07-01,QLD,Mackay,ulp91,171.8
+2026-07-01,QLD,Port Alma,diesel,172.5
+2026-07-01,QLD,Townsville,diesel,175.4
+2026-07-01,QLD,Townsville,e10,172.8
+2026-07-01,QLD,Townsville,p95,183.0
+2026-07-01,QLD,Townsville,p98,202.1
+2026-07-01,QLD,Townsville,prediesel,177.6
+2026-07-01,QLD,Townsville,ulp91,171.7
+2026-07-01,SA,Adelaide,diesel,168.1
+2026-07-01,SA,Adelaide,e10,159.0
+2026-07-01,SA,Adelaide,p95,170.3
+2026-07-01,SA,Adelaide,p98,185.8
+2026-07-01,SA,Adelaide,prediesel,170.3
+2026-07-01,SA,Adelaide,ulp91,161.9
+2026-07-01,TAS,Bell Bay,diesel,176.3
+2026-07-01,TAS,Bell Bay,e10,169.9
+2026-07-01,TAS,Bell Bay,p95,177.6
+2026-07-01,TAS,Bell Bay,p98,181.5
+2026-07-01,TAS,Bell Bay,prediesel,178.5
+2026-07-01,TAS,Bell Bay,ulp91,169.7
+2026-07-01,VIC,Hastings,diesel,171.5
+2026-07-01,VIC,Hastings,e10,163.4
+2026-07-01,VIC,Hastings,p95,177.3
+2026-07-01,VIC,Hastings,p98,185.2
+2026-07-01,VIC,Hastings,prediesel,173.7
+2026-07-01,VIC,Hastings,ulp91,163.4
+2026-07-01,VIC,Yarraville,diesel,173.4
+2026-07-01,VIC,Yarraville,e10,165.7
+2026-07-01,VIC,Yarraville,p95,178.8
+2026-07-01,VIC,Yarraville,p98,185.6
+2026-07-01,VIC,Yarraville,prediesel,175.6
+2026-07-01,VIC,Yarraville,ulp91,166.3
+2026-07-01,WA,Broome,diesel,180.0
+2026-07-01,WA,Broome,p95,205.2
+2026-07-01,WA,Broome,ulp91,195.9
+2026-07-01,WA,Perth,diesel,169.3
+2026-07-01,WA,Perth,p95,174.8
+2026-07-01,WA,Perth,p98,190.7
+2026-07-01,WA,Perth,prediesel,171.5
+2026-07-01,WA,Perth,ulp91,164.6
